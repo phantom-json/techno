@@ -1,0 +1,22 @@
+{
+  "name": "techno",
+  "version": "1.0.0",
+  "description": "techno bot",
+  "main": "techno.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "phantom",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "^0.12.2",
+    "eslint": "^7.10.0",
+    "redis": "^3.0.2",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0",
+    "urban": "^0.3.2"
+  },
+  "devDependencies": {}
+}
