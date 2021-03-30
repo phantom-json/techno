@@ -11,18 +11,20 @@ module.exports = {
 
             const args = message.content.slice(prefix.length).split(/ +/);
             const command = args.shift().toLowerCase();
+            let msg = message.channel;
 
             if (command == 'weather') {
                 try {
                     const area = args.join(' ');
                     const response = await axios(`http://api.weatherapi.com/v1/current.json?key=${apikey}&q=${encodeURIComponent(area)}`);
+                    console.log(response);
 
                     const loc = response.data.location;
                     const curr = response.data.current;
 
                     let local = loc.name;
                     let country = loc.country;
-                    let time = loc.localtime;
+                    let time = loc.localtime.slice(11, 16);
 
                     let temp = curr.temp_c;
                     let windspeed = curr.wind_mph;
@@ -47,34 +49,34 @@ module.exports = {
                             { name:'humidity', value:`${humidity}%`, inline: false },
                         );
                     try {
-                        message.channel.send(WeatherEmbed);
+                        msg.send(WeatherEmbed);
                     } catch (e) {
-                        return 'oops there was an error please try again \n Error Code: 1';
+                        msg.send('oops there was an error please try again \n Error Code: 1');
                     }
                 } catch (e) {
                     console.log(e);
-                    return 'oops an error has occured, please try again';
+                    msg.send('oops an error has occured, please try again');
                 }
 
             } else if (command == 'time') {
                 try {
-                    const content = message.content.split(/ +/);
-                    var area = content[1].toUpperCase();
-                    const response = await axios(`http://api.weatherapi.com/v1/current.json?key=${apikey}&q=${area}`);
+                    const area = args.join(' ');
+                    const response = await axios (`http://worldtimeapi.org/api/timezone/${encodeURIComponent(area)}`);
 
-                    const loc = response.data.location;
+                    console.log(args);
+                    let apiData = response.data;
 
-                    let local = loc.name;
-                    let time = loc.localtime;
+                    let zone = apiData.abbreviation;
+                    let time = apiData.datetime.slice(11, 16);
+                    let dow = apiData.day_of_week;
+                    let doy = apiData.day_of_year;
+                    let weekNum = apiData.week_number;
+                    let offset = apiData.utc_offset;
 
-                    try {
-                        message.channel.send(`The current time in ${local} is \n ${time}`);
-                    } catch(e) {
-                        return 'oops there was an error please try again \n Error Code: 1';
-                    }
+                    msg.send(zone, time, dow, doy, weekNum, offset);
                 } catch (e) {
                     console.log(e);
-                    return 'oops an error has occured, please try again';
+                    msg.send('oops there was an error');
                 }
             }
         });
@@ -85,3 +87,5 @@ module.exports = {
 // base url http://api.weatherapi.com/v1
 // docks https://www.weatherapi.com/docs/
 // google https://www.google.com/maps/place/
+
+// time api http://worldtimeapi.org/

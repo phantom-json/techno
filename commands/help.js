@@ -1,3 +1,5 @@
+const { ReplyError } = require('redis');
+
 module.exports = {
     name: 'help',
     description: 'help commands',
@@ -9,18 +11,94 @@ module.exports = {
             if (!message.content.startsWith(prefix))return;
 
             const args = message.content.slice(prefix.length).split(/ +/);
-            const command = args.shift().toLowerCase();
+            let command = args.shift().toLowerCase();
 
-            if (command == 'help') {
+            if (args == 0 && command == 'help') {
                 try {
-                    const helpembed = new Discord.MessageEmbed()
+                    const helpEmbed = new Discord.MessageEmbed()
                         .setColor('#c43333')
                         .setTitle('Help commands')
                         .setDescription('!help <command> \n\n popular help commands include,\n!help\n!help codes\n!help joke\n!help weather\n!help suggestions\n!help setup');
-                    message.channel.send(helpembed);
+                    try {
+                        message.channel.send(helpEmbed);
+                    } catch (e) {
+                        return '';
+                    }
                 } catch (e) {
                     console.log(e);
-                    return('There has been an error! please try again.');
+                    return 'There has been an error! please try again.';
+                }
+
+            } else if(args[0] == 'codes') {
+                try {
+                    const codesEmbed = new Discord.MessageEmbed()
+                    .setColor('#c43333')
+                    .setTitle('Help codes')
+                    .setDescription('for a comprehensive listing of all error codes please click above');
+                message.channel.send(codesEmbed);
+                } catch (e) {
+                    console.log(e);
+                    return 'oops there was an error, please try again';
+                }
+
+            } else if (args[0] == 'jokes') {
+                try {
+                    const jokesEmbed = new Discord.MessageEmbed()
+                    .setColor()
+                    .setTitle()
+                    .setDescription();
+                    try {
+                        message.channel.send(jokesEmbed);
+                    } catch (e) {
+                        return 'oops there was an error, please try again';
+                    }
+                } catch (e) {
+                    return 'oops there was an error, please try again';
+                }
+
+            } else if (args[0] == 'weather') {
+                try {
+                    const weatherEmbed = new Discord.MessageEmbed()
+                    .setColor()
+                    .setTitle()
+                    .setDescription();
+                    try {
+                        message.channel.send(weatherEmbed);
+                    } catch (e) {
+                        return 'oops there was an error, please try again';
+                    }
+                } catch (e) {
+                    return 'oops there was an error, please try again';
+                }
+
+            } else if (args[0] == 'suggestion') {
+                try {
+                    const suggestionEmbed = new Discord.MessageEmbed()
+                    .setColor()
+                    .setTitle()
+                    .setDescription();
+                    try {
+                        message.channel.send(suggestionEmbed);
+                    } catch (e) {
+                        return 'oops there was an error, please try again';
+                    }
+                } catch (e) {
+                    return 'oops there was an error, please try again';
+                }
+
+            } else if (args[0] == 'setup') {
+                try {
+                    const setupEmbed = new Discord.MessageEmbed()
+                    .setColor()
+                    .setTitle()
+                    .setDescription();
+                    try {
+                        message.channel.send(setupEmbed);
+                    } catch (e) {
+                        return 'oops there was an error, please try again';
+                    }
+                } catch (e) {
+                    return 'oops there was an error, please try again';
                 }
             }
 
