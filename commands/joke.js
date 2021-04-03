@@ -3,7 +3,7 @@ module.exports = {
     description: 'jokes commands',
 
     execute(client) {
-        const prefix = ('j!');
+        const prefix = ('!');
         const Discord = require('discord.js');
         const axios = require('axios');
 

@@ -73,7 +73,21 @@ module.exports = {
                     let weekNum = apiData.week_number;
                     let offset = apiData.utc_offset;
 
-                    msg.send(zone, time, dow, doy, weekNum, offset);
+                    const timeEmbed = new Discord.MessageEmbed()
+                        .setColor('#03a9fc')
+                        .setThumbnail('https://images-na.ssl-images-amazon.com/images/I/71XU41H4yuL.png')
+                        .setURL('')
+                        .setTitle(`time data for ${area}`)
+                        .addFields(
+                            { name: 'time', value: time, inline: true },
+                            { name: 'time zone', value: zone, inline: true },
+                            { name: 'offset', value: `UTC ${offset}` },
+                            { name: 'day of the week', value: dow, inline: false },
+                            { name: 'week number', value: weekNum, inline: false },
+                            { name: 'day of the year', value: doy, inline: false },
+                        );
+
+                    msg.send(timeEmbed);
                 } catch (e) {
                     console.log(e);
                     msg.send('oops there was an error');

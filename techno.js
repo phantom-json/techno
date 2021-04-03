@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const fs = require('fs');
 const { get } = require('http');
 const { disconnect } = require('process');
+const xp_commands = require('./commands/xp_commands');
 const { prefix, token } = require('./config.json');
 
 client.commands = new Discord.Collection();
@@ -21,12 +22,15 @@ client.once('ready', () => {
         // console.log('counting active');
     // client.commands.get('gencmds').execute(client);
         // console.log('gen cmds active');
-    client.commands.get('jokes').execute(client);
-        console.log('jokes is active');
-    client.commands.get('weather').execute(client);
-        console.log('weather is active');
-    client.commands.get('help').execute(client);
-        console.log('help is active');
+    // client.commands.get('jokes').execute(client);
+        // console.log('jokes is active');
+    // client.commands.get('weather').execute(client);
+        // console.log('weather is active');
+    // client.commands.get('help').execute(client);
+        // console.log('help is active');
+    client.commands.get('xp').execute(client);
+        console.log('xp is active');
+
 });
 
 client.on('message', async message => {

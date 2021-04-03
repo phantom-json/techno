@@ -1,5 +1,3 @@
-const { ReplyError } = require('redis');
-
 module.exports = {
     name: 'help',
     description: 'help commands',
@@ -12,13 +10,14 @@ module.exports = {
 
             const args = message.content.slice(prefix.length).split(/ +/);
             let command = args.shift().toLowerCase();
+            const msg = message.channel;
 
             if (args == 0 && command == 'help') {
                 try {
                     const helpEmbed = new Discord.MessageEmbed()
                         .setColor('#c43333')
                         .setTitle('Help commands')
-                        .setDescription('!help <command> \n\n popular help commands include,\n!help\n!help codes\n!help joke\n!help weather\n!help suggestions\n!help setup');
+                        .setDescription('!help <command> \n\n popular help commands include,\n`!help`\n`!help codes`\n`!help commands`\n`!help setup`');
                     try {
                         message.channel.send(helpEmbed);
                     } catch (e) {
@@ -34,7 +33,7 @@ module.exports = {
                     const codesEmbed = new Discord.MessageEmbed()
                     .setColor('#c43333')
                     .setTitle('Help codes')
-                    .setDescription('for a comprehensive listing of all error codes please click above');
+                    .setDescription('1: `i can not send messages in this channel please check my permissions`');
                 message.channel.send(codesEmbed);
                 } catch (e) {
                     console.log(e);
@@ -59,7 +58,7 @@ module.exports = {
             } else if (args[0] == 'weather') {
                 try {
                     const weatherEmbed = new Discord.MessageEmbed()
-                    .setColor()
+                    .setColor('#c43333')
                     .setTitle()
                     .setDescription();
                     try {
@@ -95,10 +94,19 @@ module.exports = {
                     try {
                         message.channel.send(setupEmbed);
                     } catch (e) {
-                        return 'oops there was an error, please try again';
+                         'oops there was an error, please try again';
                     }
                 } catch (e) {
                     return 'oops there was an error, please try again';
+                }
+            } else if (args[0] == 'commands') {
+                try {
+                    const commandEmbed = new Discord.MessageEmbed
+                    .setColor('#c43333')
+                    .setTitle('A list of all the bots commands')
+                    .setDescription('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !water \n !wolfsleep');
+                } catch (e) {
+                    message.channel.send();
                 }
             }
 

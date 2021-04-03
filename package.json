@@ -13,9 +13,14 @@
     "discord.js": "^12.5.1",
     "discord.js-commando": "^0.12.2",
     "eslint": "^7.10.0",
+    "jsonfile": "^6.1.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
+    "random": "^3.0.3",
     "redis": "^3.0.2",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0",
+    "unsplash-js": "^7.0.8",
     "urban": "^0.3.2"
   },
   "devDependencies": {}
