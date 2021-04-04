@@ -1,6 +1,6 @@
 module.exports = {
     name: 'xp',
-    description: 'xp commands',
+    description: 'xp',
 
     execute(client) {
         // const Discord = require('discord.js');
@@ -13,9 +13,9 @@ module.exports = {
         if (fs.existsSync('xp.json')) {
             stats = jsonfile.readFileSync('xp.json');
         }
-        var XPUser = {};
-        if (fs.existsSync('noxpusers.json')) {
-            XPUser = jsonfile.readFileSync('noxpusers.json');
+        var XPRole = {};
+        if (fs.existsSync('noxprole.json')) {
+            XPRole = jsonfile.readFileSync('noxprole.json');
         }
         var XPChannel = {};
         if (fs.existsSync('noxpchannel.json')) {
@@ -38,7 +38,6 @@ module.exports = {
                 };
             }
 
-
             if (message.guild.id in XPChannel === false) {
                 XPChannel[message.guild.id] = {};
             }
@@ -47,10 +46,19 @@ module.exports = {
                 return;
             }
 
-            const userStats = guildStats[message.author.id];
+            const roles = message.member.roles.cache;
+            const memberRoleID = roles.map((role) => role.id);
 
+            if (message.guild.id in XPRole === false) {
+                XPRole[message.guild.id] = {};
+            }
+            const RoleID = XPRole[message.guild.id];
+            if (memberRoleID.some((id) => id in RoleID)) {
+                return;
+            }
+
+            const userStats = guildStats[message.author.id];
             if (Date.now() - userStats.last_message > 1000) {
-                // if (message.content.startsWith(prefix)) return;
                 userStats.xp += random.int(15, 25);
                 userStats.last_message = Date.now();
 
@@ -110,6 +118,33 @@ module.exports = {
                         if (reacton.emoji.name === '👍') {
                            ChannelID[channel] = {};
                            jsonfile.writeFileSync('noxpchannel.json', XPChannel);
+                           message.reply(`you will no longer get xp from typing in <#${channel}>`);
+                        } else if (reacton.emoji.name === '👎') {
+                            message.reply('ok we have cancled that request.');
+                            return;
+                        }
+                    }
+                });
+            } else if (command == 'xp' && args[0] == 'addrole') {
+                const role = args[1];
+                if (isNaN(role)) return console.log(role);
+
+                let confirm = await message.channel.send(`are you sure you dont people with the role <@&${role} to be able to gain xp> `);
+                confirm.react('👍');
+                confirm.react('👎');
+
+                client.on('messageReactionAdd', async (reacton, user) => {
+                    if (reacton.message.partial) await reacton.message.fetch();
+                    if (reacton.partial) await reacton.fetch();
+                    if (user.bot) return;
+                    if (!reacton.message.guild) return;
+
+                    if (reacton.message.channel.id == message.channel.id) {
+                        if (reacton.emoji.name === '👍') {
+                            RoleID[role] = {};
+                            jsonfile.writeFileSync('noxprole.json', XPRole);
+                            console.log('half working');
+                            console.log(role);
                         }
                     }
                 });

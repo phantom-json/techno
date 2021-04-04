@@ -2,9 +2,6 @@ const axios = require('axios');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
-const { get } = require('http');
-const { disconnect } = require('process');
-const xp_commands = require('./commands/xp_commands');
 const { prefix, token } = require('./config.json');
 
 client.commands = new Discord.Collection();
@@ -30,6 +27,8 @@ client.once('ready', () => {
         // console.log('help is active');
     client.commands.get('xp').execute(client);
         console.log('xp is active');
+    client.commands.get('coins').execute(client);
+        console.log('coins is active');
 
 });
 
