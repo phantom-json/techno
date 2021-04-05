@@ -7,7 +7,6 @@ module.exports = {
         const random = require('random');
         const fs = require('fs');
         const jsonfile = require('jsonfile');
-        const { prefix } = require('../config.json');
 
         var stats = {};
         if (fs.existsSync('xp.json')) {
@@ -37,6 +36,7 @@ module.exports = {
                     last_message: 0,
                 };
             }
+            const userStats = guildStats[message.author.id];
 
             if (message.guild.id in XPChannel === false) {
                 XPChannel[message.guild.id] = {};
@@ -57,7 +57,6 @@ module.exports = {
                 return;
             }
 
-            const userStats = guildStats[message.author.id];
             if (Date.now() - userStats.last_message > 1000) {
                 userStats.xp += random.int(15, 25);
                 userStats.last_message = Date.now();
@@ -93,61 +92,6 @@ module.exports = {
                 jsonfile.writeFileSync('xp.json', stats);
                 console.log(message.author.username + ' now has ' + userStats.xp);
                 console.log(xpToNextLevel + ' XP needed for next level.');
-            }
-            if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-            const args = message.content.slice(prefix.length).split(/ +/);
-            let command = args.shift().toLowerCase();
-            const msg = message.channel;
-
-            if (command == 'xp' && args[0] == 'addchannel') {
-                const channel = args[1];
-                if (isNaN(channel)) return console.log(channel);
-
-                let confirm = await message.channel.send(`are you sure you dont want to get xp when chatting in <#${channel}> `);
-                confirm.react('👍');
-                confirm.react('👎');
-
-                client.on('messageReactionAdd', async (reacton, user) => {
-                    if (reacton.message.partial) await reacton.message.fetch();
-                    if (reacton.partial) await reacton.fetch();
-                    if (user.bot) return;
-                    if (!reacton.message.guild) return;
-
-                    if (reacton.message.channel.id == message.channel.id) {
-                        if (reacton.emoji.name === '👍') {
-                           ChannelID[channel] = {};
-                           jsonfile.writeFileSync('noxpchannel.json', XPChannel);
-                           message.reply(`you will no longer get xp from typing in <#${channel}>`);
-                        } else if (reacton.emoji.name === '👎') {
-                            message.reply('ok we have cancled that request.');
-                            return;
-                        }
-                    }
-                });
-            } else if (command == 'xp' && args[0] == 'addrole') {
-                const role = args[1];
-                if (isNaN(role)) return console.log(role);
-
-                let confirm = await message.channel.send(`are you sure you dont people with the role <@&${role} to be able to gain xp> `);
-                confirm.react('👍');
-                confirm.react('👎');
-
-                client.on('messageReactionAdd', async (reacton, user) => {
-                    if (reacton.message.partial) await reacton.message.fetch();
-                    if (reacton.partial) await reacton.fetch();
-                    if (user.bot) return;
-                    if (!reacton.message.guild) return;
-
-                    if (reacton.message.channel.id == message.channel.id) {
-                        if (reacton.emoji.name === '👍') {
-                            RoleID[role] = {};
-                            jsonfile.writeFileSync('noxprole.json', XPRole);
-                            console.log('half working');
-                            console.log(role);
-                        }
-                    }
-                });
             }
         });
     },

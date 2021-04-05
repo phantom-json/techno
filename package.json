@@ -16,8 +16,6 @@
     "node-fetch": "^2.6.1",
     "random": "^3.0.3",
     "redis": "^3.0.2",
-    "sequelize": "^6.3.5",
-    "sqlite3": "^5.0.0",
     "urban": "^0.3.2"
   },
   "devDependencies": {}

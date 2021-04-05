@@ -1,4 +1,3 @@
-const axios = require('axios');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
@@ -27,8 +26,10 @@ client.once('ready', () => {
         // console.log('help is active');
     client.commands.get('xp').execute(client);
         console.log('xp is active');
-    client.commands.get('coins').execute(client);
-        console.log('coins is active');
+    client.commands.get('xp_commands').execute(client);
+        console.log('xp commands is active');
+    // client.commands.get('coins').execute(client);
+        // console.log('coins is active');
 
 });
 
@@ -50,6 +51,12 @@ client.on('message', async message => {
 
     } else if (command == 'pings') {
         console.log('yes');
+        message.reply('yes');
+        setTimeout(async function() {
+            await message.channel.messages.fetch({ limit: 2 }).then(messages => {
+               message.channel.bulkDelete(messages);
+            });
+        }, 5000);
     }
 });
 
