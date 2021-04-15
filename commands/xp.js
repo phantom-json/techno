@@ -73,17 +73,33 @@ module.exports = {
                     const diamond = '827590155048976474';
                     const imortal = '827590630292324352';
 
-                    if (userStats.level >= 1) {
+                    if (userStats.level >= 5) {
                         member.roles.add(iron);
                     }
-                    if (userStats.level >= 2) {
+                    if (userStats.level >= 10) {
                         console.log(bronse);
                         member.roles.remove(iron);
                         member.roles.add(bronse);
                     }
-                    if (userStats.level >= 3) {
+                    if (userStats.level >= 15) {
                         member.roles.remove(bronse);
                         member.roles.add(silver);
+                    }
+                    if (userStats.level >= 20) {
+                        member.roles.remove(silver);
+                        member.roles.add(gold);
+                    }
+                    if (userStats.level >= 25) {
+                        member.roles.remove(gold);
+                        member.roles.add(plat);
+                    }
+                    if (userStats.level >= 30) {
+                        member.roles.remove(plat);
+                        member.roles.add(diamond);
+                    }
+                    if (userStats.level >= 35) {
+                        member.roles.remove(diamond);
+                        member.roles.add(imortal);
                     }
                     userStats.xp = userStats.xp - xpToNextLevel;
                     message.channel.send(message.author.username + ' has reached level ' + userStats.level);

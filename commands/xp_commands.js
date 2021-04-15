@@ -124,7 +124,6 @@ module.exports = {
                 const guilddata = file[message.guild.id];
                 const userdata = guilddata[message.author.id];
                 const author = message.author.username;
-                const pfp = message.member.avatarURL;
                 const xpToNextLevel = 5 * Math.pow(userdata.level, 2) + 50 * userdata.level + 100;
                 const xpneeded = xpToNextLevel - userdata.xp;
 

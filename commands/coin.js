@@ -15,6 +15,9 @@ module.exports = {
         }
 
         client.on('message', async (message) => {
+            client.on('guildMemberAdd', (member) => {
+                message.channel.send('test');
+            });
             if (!message.content.startsWith(prefix) || message.author.bot) return;
 
             const args = message.content.slice(prefix.length).split(/ +/);
