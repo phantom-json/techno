@@ -12,22 +12,7 @@ module.exports = {
             let command = args.shift().toLowerCase();
             const msg = message.channel;
 
-            /* } else if(args[0] == 'codes' && command == 'help') {
-                try {
-                    const codesEmbed = new Discord.MessageEmbed()
-                    .setColor('#c43333')
-                    .setTitle('Help codes')
-                    .setDescription('1: `i can not send messages in this channel please check my permissions`');
-                    try {
-                        msg.send(codesEmbed);
-                    } catch (e) {
-                        msg.send('oops there was an error, please try again');
-                    }
-                } catch (e) {
-                    msg.send('oops there was an error, please try again');
-                } */
-
-            if (args[0] == 'jokes' && command == 'help') {
+            /* if (args[0] == 'jokes' && command == 'help') {
                 try {
                     const jokesEmbed = new Discord.MessageEmbed()
                     .setColor()
@@ -85,19 +70,14 @@ module.exports = {
                     }
                 } catch (e) {
                     msg.send('oops there was an error, please try again');
-                }
-            } else if (args[0] == 'commands' || undefined && command == 'help') {
+                } */
+            if (command == 'help') {
                 try {
-                    const commandEmbed = new Discord.MessageEmbed
-                        .setColor('#c43333')
-                        .setTitle('A list of all the bots commands')
-                        .setDescription('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !rank ');
-                    msg.send(commandEmbed);
+                    msg.send('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !rank ');
                 } catch (e) {
                     msg.send();
                 }
             }
-
         });
     },
 };

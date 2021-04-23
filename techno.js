@@ -22,8 +22,8 @@ client.once('ready', () => {
         console.log('jokes is active');
     client.commands.get('weather').execute(client);
         console.log('weather is active');
-    client.commands.get('help').execute(client);
-        console.log('help is active');
+    // client.commands.get('help').execute(client);
+        // console.log('help is active');
     client.commands.get('xp').execute(client);
         console.log('xp is active');
     client.commands.get('xp_commands').execute(client);
@@ -49,15 +49,22 @@ client.on('message', async message => {
         console.log('8ball');
         client.commands.get('8_ball').execute(message, client);
 
-    } else if (command == 'pings') {
+    } else if (command == 'help') {
+        try {
+            message.channel.send('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !rank ');
+        } catch (e) {
+            message.channel.send();
+        }
+    }
+
+    /* } else if (command == 'pings') {
         console.log('yes');
         message.reply('yes');
         setTimeout(async function() {
             await message.channel.messages.fetch({ limit: 2 }).then(messages => {
                message.channel.bulkDelete(messages);
             });
-        }, 5000);
-    }
+        }, 5000);*/
 });
 
 

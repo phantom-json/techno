@@ -17,7 +17,6 @@ module.exports = {
                 try {
                     const area = args.join(' ');
                     const response = await axios(`http://api.weatherapi.com/v1/current.json?key=${apikey}&q=${encodeURIComponent(area)}`);
-                    console.log(response);
 
                     const loc = response.data.location;
                     const curr = response.data.current;

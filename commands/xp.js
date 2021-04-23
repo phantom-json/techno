@@ -106,8 +106,8 @@ module.exports = {
                 }
 
                 jsonfile.writeFileSync('xp.json', stats);
-                console.log(message.author.username + ' now has ' + userStats.xp);
-                console.log(xpToNextLevel + ' XP needed for next level.');
+                // console.log(message.author.username + ' now has ' + userStats.xp);
+                // console.log(xpToNextLevel + ' XP needed for next level.');
             }
         });
     },
