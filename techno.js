@@ -42,16 +42,21 @@ client.on('message', async message => {
     if (command == 'spank') {
         client.commands.get('spank').execute(message, client);
 
-    } else if (command == 'suggest') {
-        client.commands.get('suggestions').execute(message, client);
+    // } else if (command == 'suggest') {
+        // client.commands.get('suggestions').execute(message, client);
 
     } else if (command == 'ball') {
-        console.log('8ball');
         client.commands.get('8_ball').execute(message, client);
 
     } else if (command == 'help') {
         try {
-            message.channel.send('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !rank ');
+            const embed = new Discord.MessageEmbed()
+            .setColor('#c43333')
+            .setTitle('**commands for techno**')
+            .setDescription('!help \n !suggest \n !weather \n !time \n !joke \n !bread \n !momma \n !spank \n !rank ')
+            .setThumbnail('https://global-uploads.webflow.com/5e157548d6f7910beea4e2d6/604150249dd5c6c6dad513a4_grbirDygHnFrmvJI3JdoogDOaenIiZyJk60OEXEqwvhWWAgWtstyEq0dZVCC4hXrErHPhQleQ-bWtW7t3gr5vVyWJAbeyeSVJd84nENcuOYJ4z4a2Q6BXo5IpZNP7ddBdNMpTfx5.png');
+
+            message.channel.send(embed);
         } catch (e) {
             message.channel.send();
         }

@@ -24,6 +24,10 @@ module.exports = {
                 XPChannel = jsonfile.readFileSync('noxpchannel.json');
             }
 
+            var XPUser = {};
+            if (fs.existsSync('noxpuser.json')) {
+                XPUser = jsonfile.readFileSync('noxpuser.json');
+            }
             // if guild id in file do xyz
             if (message.guild.id in XPChannel === false) {
                 XPChannel[message.guild.id] = {};
@@ -33,11 +37,15 @@ module.exports = {
                 XPRole[message.guild.id] = {};
             } const RoleID = XPRole[message.guild.id];
 
+            if (message.guild.id in XPUser === false) {
+                XPUser[message.guild.id] = {};
+            } const UserID = XPUser[message.guild.id];
+
             // cmds
             if (command == 'xp' && args[0] == 'addchannel') {
                 if (message.member.hasPermission('BAN_MEMBERS')) {
                     const channel = args[1];
-                    if (isNaN(channel)) return console.log(channel);
+                    if (isNaN(channel)) message.reply('please make sure you are following the format | !xp addchannel <channel id>');
 
                     let confirm = await message.channel.send(`are you sure you dont want to get xp when chatting in <#${channel}> `);
                     confirm.react('👍');
@@ -86,7 +94,7 @@ module.exports = {
             } else if (command == 'xp' && args[0] == 'addrole') {
                 if (message.member.hasPermission('BAN_MEMBERS')) {
                     const role = args[1];
-                    if (isNaN(role)) return console.log(role);
+                    if (isNaN(role)) message.reply('please make sure you are following the format | !xp addrole <role id>');
 
                     let confirm = await message.channel.send(`are you sure you dont people with the role <@&${role}> to be able to gain xp> `);
                     confirm.react('👍');
@@ -102,6 +110,12 @@ module.exports = {
                             if (reacton.emoji.name === '👍') {
                                     RoleID[role] = {};
                                     jsonfile.writeFileSync('noxprole.json', XPRole);
+                                    message.reply(`users with the role <@&${role}> will now no longer gain xp`);
+                                    setTimeout(async function() {
+                                        await message.channel.messages.fetch({ limit: 3 }).then(messages => {
+                                            message.channel.bulkDelete(messages);
+                                         });
+                                    }, 3000);
                             } else if (reacton.emoji.name === '👎') {
                                 message.reply('ok we have cancled that request.');
                                 setTimeout(async function() {
@@ -116,27 +130,93 @@ module.exports = {
                 } else {
                     return message.reply('ah dang u cant use that');
                 }
+            } else if (command == 'xp' && args[0] == 'adduser') {
+                if (message.member.hasPermission('BAN_MEMBERS')) {
+                    const mention = message.mentions.users.first();
+                    if (mention == undefined) {
+                        message.reply('please tag a user | !xp adduser <tagged user>');
+
+                    } else if (mention !== undefined) {
+                        let confirm = await message.channel.send(`are you sure you dont want ${mention} to be able to gain xp> `);
+                        confirm.react('👍');
+                        confirm.react('👎');
+
+                        client.on('messageReactionAdd', async (reacton, user) => {
+                            if (reacton.message.partial) await reacton.message.fetch();
+                            if (reacton.partial) await reacton.fetch();
+                            if (user.bot) return;
+                            if (!reacton.message.guild) return;
+
+                            if (reacton.message.channel.id == message.channel.id) {
+                                if (reacton.emoji.name === '👍') {
+                                        UserID[mention.id] = {};
+                                        jsonfile.writeFileSync('noxpuser.json', XPUser);
+                                        message.reply(`${mention} will now no longer gain xp`);
+                                        setTimeout(async function() {
+                                            await message.channel.messages.fetch({ limit: 3 }).then(messages => {
+                                                message.channel.bulkDelete(messages);
+                                             });
+                                        }, 3000);
+                                } else if (reacton.emoji.name === '👎') {
+                                    message.reply('ok we have cancled that request.');
+                                    setTimeout(async function() {
+                                        await message.channel.messages.fetch({ limit: 3 }).then(messages => {
+                                            message.channel.bulkDelete(messages);
+                                        });
+                                    }, 5000);
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    return message.reply('ah dang u cant use that');
+                }
             } else if (command == 'rank') {
                 if (!fs.existsSync('xp.json')) {
                     message.reply('we couldnt find any data, sorry. try talking a bit first');
                 }
-                const file = jsonfile.readFileSync('xp.json');
-                const guilddata = file[message.guild.id];
-                const userdata = guilddata[message.author.id];
-                const author = message.author.username;
-                const xpToNextLevel = 5 * Math.pow(userdata.level, 2) + 50 * userdata.level + 100;
-                const xpneeded = xpToNextLevel - userdata.xp;
+                const tagged = message.mentions.users.first();
 
-                const embed = new discord.MessageEmbed()
-                    .setColor('#2fde86')
-                    .setThumbnail('https://str.com/sites/default/files/styles/laptop/public/2019-05/trend-reports_2.png?itok=h4adEYIx')
-                    .setTitle(`__ranking data for ${author}__`)
-                    .addFields(
-                        { name: 'level xp', value: userdata.xp, inline: false },
-                        { name: 'level', value: userdata.level, inline: false },
-                        { name: 'xp to next level', value: xpneeded, inline: false },
-                    );
-                message.channel.send(embed);
+                if (tagged == undefined) {
+                    const file = jsonfile.readFileSync('xp.json');
+                    const guilddata = file[message.guild.id];
+                    const userdata = guilddata[message.author.id];
+                    const author = message.author.username;
+                    const xpToNextLevel = 5 * Math.pow(userdata.level, 2) + 50 * userdata.level + 100;
+                    const xpneeded = xpToNextLevel - userdata.xp;
+
+                    const embed = new discord.MessageEmbed()
+                        .setColor('#2fde86')
+                        .setThumbnail('https://str.com/sites/default/files/styles/laptop/public/2019-05/trend-reports_2.png?itok=h4adEYIx')
+                        .setTitle(`__ranking data for ${author}__`)
+                        .addFields(
+                            { name: 'level xp', value: userdata.xp, inline: false },
+                            { name: 'level', value: userdata.level, inline: false },
+                            { name: 'xp to next level', value: xpneeded, inline: false },
+                        );
+                    message.channel.send(embed);
+
+                } else if (tagged !== undefined) {
+                    const file = jsonfile.readFileSync('xp.json');
+                    const guilddata = file[message.guild.id];
+                    const userdata = guilddata[tagged.id];
+                    const author = tagged.username;
+                    const xpToNextLevel = 5 * Math.pow(userdata.level, 2) + 50 * userdata.level + 100;
+                    const xpneeded = xpToNextLevel - userdata.xp;
+
+                    const embed = new discord.MessageEmbed()
+                        .setColor('#2fde86')
+                        .setThumbnail('https://str.com/sites/default/files/styles/laptop/public/2019-05/trend-reports_2.png?itok=h4adEYIx')
+                        .setTitle(`__ranking data for ${author}__`)
+                        .addFields(
+                            { name: 'level xp', value: userdata.xp, inline: false },
+                            { name: 'level', value: userdata.level, inline: false },
+                            { name: 'xp to next level', value: xpneeded, inline: false },
+                        );
+                    message.channel.send(embed);
+
+                }
             }
         });
     },

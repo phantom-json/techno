@@ -50,11 +50,11 @@ module.exports = {
                     try {
                         msg.send(WeatherEmbed);
                     } catch (e) {
-                        msg.send('oops there was an error please try again \n Error Code: 1');
+                        msg.send('oops there was an error please try again \nRemember to use our format: !weather [location]');
                     }
                 } catch (e) {
                     console.log(e);
-                    msg.send('oops an error has occured, please try again');
+                    msg.send('oops an error has occured, please try again \nRemember to use our format: !weather [location]');
                 }
 
             } else if (command == 'time') {
@@ -89,7 +89,7 @@ module.exports = {
                     msg.send(timeEmbed);
                 } catch (e) {
                     console.log(e);
-                    msg.send('oops there was an error');
+                    msg.send('oops there was an error \nMake sure you are using the format: !time [area/location] [ip] [timezone]');
                 }
             }
         });

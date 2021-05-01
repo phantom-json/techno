@@ -5,7 +5,7 @@ module.exports = {
     execute(client) {
         let count = 0;
         let timeout;
-        const chanID = ('763735137396588555');
+        const chanID = '838074994147459102';
 
         client.on('message', ({ channel, content, member }) => {
             if (channel.id === chanID) {

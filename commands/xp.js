@@ -21,6 +21,11 @@ module.exports = {
             XPChannel = jsonfile.readFileSync('noxpchannel.json');
         }
 
+        var XPUser = {};
+        if (fs.existsSync('noxpuser.json')) {
+            XPUser = jsonfile.readFileSync('noxpuser.json');
+        }
+
         client.on('message', async (message) => {
             const { member } = message;
             if (message.author.bot) return;
@@ -57,6 +62,14 @@ module.exports = {
                 return;
             }
 
+            if (message.guild.id in XPUser === false) {
+                XPUser[message.guild.id] = {};
+            }
+            const UserID = XPUser[message.guild.id];
+            if (message.author.id in UserID) {
+                return;
+            }
+
             if (Date.now() - userStats.last_message > 1000) {
                 userStats.xp += random.int(15, 25);
                 userStats.last_message = Date.now();
@@ -65,13 +78,13 @@ module.exports = {
                 if (userStats.xp >= xpToNextLevel) {
                     userStats.level++;
 
-                    const iron = '827589627732688896';
-                    const bronse = '827589715699826760';
-                    const silver = '827589830082691133';
-                    const gold = '827590018423980093';
-                    const plat = '827590550097756201';
-                    const diamond = '827590155048976474';
-                    const imortal = '827590630292324352';
+                    const iron = message.guild.roles.cache.find(role => role.name === 'iron');
+                    const bronse = message.guild.roles.cache.find(role => role.name === 'bronse');
+                    const silver = message.guild.roles.cache.find(role => role.name === 'silver');
+                    const gold = message.guild.roles.cache.find(role => role.name === 'gold');
+                    const plat = message.guild.roles.cache.find(role => role.name === 'platinum');
+                    const diamond = message.guild.roles.cache.find(role => role.name === 'diamond');
+                    const imortal = message.guild.roles.cache.find(role => role.name === 'imortal');
 
                     if (userStats.level >= 5) {
                         member.roles.add(iron);
@@ -102,7 +115,13 @@ module.exports = {
                         member.roles.add(imortal);
                     }
                     userStats.xp = userStats.xp - xpToNextLevel;
-                    message.channel.send(message.author.username + ' has reached level ' + userStats.level);
+                    const sendChannel = client.channels.cache.find(channel => channel.name == 'leveling');
+
+                    if (message.member.roles.cache.has('838069712436199467')) {
+                        sendChannel.send(`<@${message.author.id}> has reached level ${userStats.level}`);
+                    } else {
+                        sendChannel.send(`${message.author.username} has reached level ${userStats.level}`);
+                    }
                 }
 
                 jsonfile.writeFileSync('xp.json', stats);
