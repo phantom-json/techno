@@ -29,7 +29,6 @@ export default (client: Client, user: User) => {
         })
         
         userProfileAdd(user)
-        // return (`added <@${user.id} to the database`)
     })
 }
 

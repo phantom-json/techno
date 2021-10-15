@@ -1,7 +1,6 @@
-import { Interaction, User, Message} from "discord.js";
+import { Interaction, User, Message, } from "discord.js";
 import profileSchema from "./models/profileSchema";
 import random from "random"
-import { AggregationCursor } from "mongoose";
 
 export async function userProfileAdd(user: User) {
     await profileSchema.insertMany({
@@ -30,4 +29,10 @@ export async function userAddRandxp(user: User) {
     }, {
         upsert: true
     })
+}
+
+export async function userAddxp(user:User, args:string[]) {
+    args.shift()
+    console.log(args.shift)
+    const xp = parseInt(args[1])
 }

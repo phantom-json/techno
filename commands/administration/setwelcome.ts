@@ -1,6 +1,7 @@
 import { ICommand } from "wokcommands";
 import DiscordJS from 'discord.js'
 import welcomeSchema from "../../models/welcome-schema";
+import { userAddxp } from "../../functions";
 
 export default {
     category: 'Configuration',
@@ -30,7 +31,7 @@ export default {
         }
     ],
 
-    callback: async ({ guild, message, interaction, args}) => {
+    callback: async ({ guild, message, interaction, args, user}) => {
         if (!guild) {
             return 'Please use this command within a server'
         }
@@ -55,7 +56,8 @@ export default {
         }, {
             upsert: true
         })
-
         return 'welcome channel set'
+
+        
     }
 } as ICommand

@@ -1,4 +1,5 @@
 import { ICommand } from "wokcommands";
+import { userAddxp } from "../../functions";
 
 export default {
     category: 'Testing',
@@ -12,4 +13,5 @@ export default {
     callback: ({ member, client }) => {
         client.emit('guildMemberAdd', member)
     }
+
 } as ICommand

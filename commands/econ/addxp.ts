@@ -29,12 +29,12 @@ export default {
         const random = message ? args[0] : interaction.options.getBoolean('random')
 
         if (!random) {
-            return 'please follow our formatting'
+            return 'please follow our formatting\n"?addxp @<user> Random:<true/false> Amount:<xp>"'
         }
 
         if (random == true) {
             userAddRandxp(user)
-        } 
+        }
 
         args.shift()
         const xp = parseInt(args[1])

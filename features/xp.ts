@@ -1,6 +1,7 @@
 import { Client, Message, TextChannel, User } from "discord.js";
+import { userAddRandxp, userProfileAdd } from "../functions";
 import profileSchema from "../models/profileSchema";
-import { }
+
 
 const xpData = {} as {
     // userID: [xp]
@@ -8,15 +9,10 @@ const xpData = {} as {
 }
 
 export default (client: Client, user: User) => {
-    client.on('message', async message => {
-        
-        let data = xpData[user.id]
+    client.on('messageCreate', async message => {
+        const user = message.author
+        userAddRandxp(user)
 
-        if (!data) {
-            const results = await profileSchema.findById(user.id)
-            if (!results) {
-                
-            }
-        }
+        console.log(`added xp to ${user.tag}`)
     })
 }
