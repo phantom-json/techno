@@ -1,7 +1,6 @@
 import { ICommand } from "wokcommands";
 import DiscordJS from 'discord.js'
 import welcomeSchema from "../../models/welcome-schema";
-import { userAddxp } from "../../functions";
 
 export default {
     category: 'Configuration',

@@ -22,6 +22,7 @@ client.on('ready', () => {
         botOwners: ['460466062593622016'],
         mongoUri: process.env.MONGO_URI,
         typeScript: true,
+        ignoreBots: true,
     })
 
     wok.on('databaseConnected', async (connection, state) => {

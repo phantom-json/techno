@@ -1,4 +1,3 @@
-import { Guild } from 'discord.js';
 import mongoose, { Schema } from 'mongoose';
 
 const reqString = {
@@ -13,10 +12,35 @@ const reqNum = {
 const profileSchema = new Schema({
     _id: reqString,
     userID: reqString,
-    xp: reqNum,
-    level: reqNum,
-    coins: reqNum,
-    bank: reqNum
+
+    xp: {
+        xp: reqNum,
+        rank: reqNum,
+    },
+
+    coins: {
+        coins: reqNum,
+        bank: reqNum,
+    },
+
+    avatar: {
+        name: reqString,
+        age: reqNum,
+        // DoB: reqString, - non functional|returns null
+        sex: reqString,
+        powers: {
+            mainpower: {
+                type: String,
+            },
+            secondarypower: {
+                type: String,
+            },
+            finisher: {
+                type: String
+            }
+
+        }
+    }
 })
 
 const name = 'user-profiles'

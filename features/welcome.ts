@@ -10,7 +10,7 @@ const welcomeData = {} as {
 export default (client: Client, user: User) => {
     client.on('guildMemberAdd', async member => {
         const { guild, id, user} = member
-        
+
         let data = welcomeData[guild.id]
 
         if (!data) {

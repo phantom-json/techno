@@ -1,6 +1,7 @@
 import { ICommand } from "wokcommands";
 import DiscordJS, { GuildMember } from "discord.js"
 import profileSchema from "../../models/profileSchema";
+import { userProfileAdd } from "../../functions";
 
 export default {
     category: 'Moderation',
@@ -23,19 +24,12 @@ export default {
     ],
     
     callback: async ({ interaction, guild}) => {
-        var userID = interaction.options.getUser('user')
-        if (!userID) return;
+        var user = interaction.options.getUser('user')
+        if (!user) return;
 
-        console.log(typeof(userID))
+        userProfileAdd(user)
 
-        await profileSchema.insertMany({
-            _id: userID.id,
-            userID: userID.id,
-            xp: 0,
-            level: 0,
-            coins: 0,
-            bank: 0
-        })
+        
 
         return 'New user profile set'
     }

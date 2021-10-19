@@ -31,8 +31,8 @@ export async function userAddRandxp(user: User) {
     })
 }
 
-export async function userAddxp(user:User, args:string[]) {
-    args.shift()
-    console.log(args.shift)
-    const xp = parseInt(args[1])
+export async function findUserByID(user:User) {
+    await profileSchema.findById({
+        _id: user.id
+    })
 }

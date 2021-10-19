@@ -13,6 +13,7 @@ export default {
     slash: 'both',
 
     callback: ({message, interaction, args}) => {
+        
         async function PPrate() {
             const mentioned = message ? message.mentions.users.first() : interaction.options.getUser('user')
             if (mentioned == null) { const mentioned = message ? message.author.id : interaction.user.id }
