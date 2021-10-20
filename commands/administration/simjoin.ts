@@ -11,17 +11,10 @@ export default {
     testOnly: true,
     ownerOnly: true,
 
-    callback: async ({ member, client, user}) => {
+    callback: async ({ member, client, user, guild}) => {
         client.emit('guildMemberAdd', member)
-
-        const data = await profileSchema.findById({
-            _id: user.id
-        })
-        if (data) {
-            console.log(data)
-        }
-    
-        userProfileAdd(user)
+        if (!guild) return
+        userProfileAdd(user, guild)
         
     }
 

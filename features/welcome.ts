@@ -1,4 +1,4 @@
-import { Client, Interaction, TextChannel, User } from "discord.js";
+import { Client, Interaction, TextChannel, User, Guild} from "discord.js";
 import profileSchema from "../models/profileSchema";
 import welcomeSchema from "../models/welcome-schema";
 import { userProfileAdd } from "../functions"
@@ -7,7 +7,7 @@ const welcomeData = {} as {
     // guildID: [channel, message]
     [key: string]: [TextChannel, string]
 }
-export default (client: Client, user: User) => {
+export default (client: Client, user: User, guild: Guild) => {
     client.on('guildMemberAdd', async member => {
         const { guild, id, user} = member
 
@@ -28,7 +28,9 @@ export default (client: Client, user: User) => {
             content: data[1].replace(/@/g, `<@${id}>`),
         })
         
-        userProfileAdd(user)
+        userProfileAdd(user, guild)
+
+        
     })
 }
 

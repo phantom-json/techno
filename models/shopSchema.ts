@@ -16,53 +16,12 @@ const reqBool = {
 }
 
 const shopSchema = new Schema({
-    _id: reqString,
-    items: {
-        item: {
-            enabled: reqBool,
-            price: reqNumber,
-            description: reqString,
-        },
-        // fish: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // chains: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // lock: {
-        //     enabled: reqBool,
-        //     price: reqString,
-        //     description: reqString
-        // },
-        // fidgetSpinner: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // alcohol: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // technoCoin: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // technoMedal: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
-        // technoCrown: {
-        //     enabled: reqBool,
-        //     price: reqNumber,
-        //     description: reqString,
-        // },
+    ItemName: reqString,
+    item: {
+        name: reqString,
+        description: reqString,
+        price: reqString,
+        enabled: reqBool,
     }
 })
 

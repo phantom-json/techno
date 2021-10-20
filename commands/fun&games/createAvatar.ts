@@ -1,5 +1,4 @@
 import { ICommand } from "wokcommands";
-import { findUserByID } from "../../functions";
 import profileSchema from "../../models/profileSchema";
 
 export default {
@@ -23,12 +22,12 @@ export default {
             required: true,
             type: 'NUMBER'
         }, 
-        {
-            name: 'DoB',
-            description: 'Your avatars Birthday',
-            required: true,
-            type: 'STRING'
-        },
+        // {
+        //     name: 'DoB',
+        //     description: 'Your avatars Birthday',
+        //     required: true,
+        //     type: 'STRING'
+        // },
         {
             name: 'sex',
             description: 'The birth sex of your avatar',
@@ -56,16 +55,11 @@ export default {
     ],
 
     callback: async ({ interaction, guild, user}) => {
-        const userID = await profileSchema.findById({
-            _id: user.id
-        })
+        if (!guild) return
 
-        if (!userID) {
-            return 'can not create avatar, no user profile'
-        }
-        
-        await profileSchema.findByIdAndUpdate({
-            _id: user.id,
+        await profileSchema.findOneAndUpdate({
+            userID: user.id,
+            guildID: guild.id
         }, {
             avatar: {
                 name: interaction.options.getString('name'),
@@ -80,11 +74,6 @@ export default {
             }
         })
         
-        const userprofile = await profileSchema.findById({
-            _id: user.id
-        })
-
-        console.log(userprofile)
         return 'Created avatar!'
     }
 } as ICommand

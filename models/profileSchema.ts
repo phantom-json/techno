@@ -10,19 +10,26 @@ const reqNum = {
 }
 
 const profileSchema = new Schema({
-    _id: reqString,
     userID: reqString,
+    guildID: reqString,
 
-    xp: {
+    inventory: {
         xp: reqNum,
         rank: reqNum,
-    },
-
-    coins: {
         coins: reqNum,
         bank: reqNum,
+        items: {
+            name: {
+                type: String,
+            },
+            description: {
+                type: String,
+            },
+            number: {
+                type: Number,
+            },
+        },
     },
-
     avatar: {
         name: reqString,
         age: reqNum,
@@ -38,7 +45,6 @@ const profileSchema = new Schema({
             finisher: {
                 type: String
             }
-
         }
     }
 })

@@ -26,10 +26,9 @@ export default {
     callback: async ({ interaction, guild}) => {
         var user = interaction.options.getUser('user')
         if (!user) return;
+        if (!guild) return;
 
-        userProfileAdd(user)
-
-        
+        userProfileAdd(user, guild)
 
         return 'New user profile set'
     }

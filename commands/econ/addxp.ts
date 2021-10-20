@@ -33,7 +33,7 @@ export default {
         }
 
         if (random == true) {
-            userAddRandxp(user)
+            userAddRandxp(user, guild)
         }
 
         args.shift()
@@ -44,15 +44,19 @@ export default {
         }
 
         await profileSchema.findOneAndUpdate({
-            _id: userID.id,
+            userID: userID.id,
+            guildID: guild.id,
         }, {
-            userID: user.tag, 
-            $inc: {
-                xp,
-            },
-            level: 0,
-            coins: 0,
-            bank: 0
+            userID: user.tag,
+            guildID: guild.id,
+            inventory: {
+                $inc: {
+                    xp,
+                },
+                level: 0,
+                coins: 0,
+                bank: 0
+            }
         }, {
             upsert: true
         })
