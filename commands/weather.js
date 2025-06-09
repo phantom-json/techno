@@ -95,10 +95,3 @@ module.exports = {
         });
     },
 };
-
-
-// base url http://api.weatherapi.com/v1
-// docks https://www.weatherapi.com/docs/
-// google https://www.google.com/maps/place/
-
-// time api http://worldtimeapi.org/

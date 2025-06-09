@@ -19,6 +19,3 @@ module.exports = async () => {
     });
 };
 
-
-// wU0nsOVnO8B22ZC7vKiUfzdKwQZZz5jx
-// redis-16073.c99.us-east-1-4.ec2.cloud.redislabs.com:16073
